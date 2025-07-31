@@ -52,8 +52,27 @@ function drawClock(sections) {
   resize();
   window.addEventListener('resize', resize);
 
-  const arrowImg = new Image();
-  arrowImg.src = 'arrow.png';
+  function drawArrow(angle, radius) {
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.rotate(angle);
+    const lineLen = radius * 0.85;
+    ctx.lineWidth = radius * 0.05;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#fff';
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -lineLen);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, -radius);
+    ctx.lineTo(-radius * 0.07, -lineLen);
+    ctx.lineTo(radius * 0.07, -lineLen);
+    ctx.closePath();
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.restore();
+  }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -86,24 +105,11 @@ function drawClock(sections) {
 
     ctx.globalAlpha = 1;
     const angle = (min / day) * 2 * Math.PI - Math.PI / 2;
-    if (arrowImg.complete) {
-      ctx.save();
-      ctx.translate(center, center);
-      ctx.rotate(angle);
-      const scale = radius / arrowImg.height * 1.2;
-      const w = arrowImg.width * scale;
-      const h = arrowImg.height * scale;
-      ctx.drawImage(arrowImg, -w / 2, -h, w, h);
-      ctx.restore();
-    }
+    drawArrow(angle, radius);
 
     requestAnimationFrame(draw);
   }
-  if (arrowImg.complete) {
-    draw();
-  } else {
-    arrowImg.onload = draw;
-  }
+  draw();
 }
 
 loadSections().then(sections => {
