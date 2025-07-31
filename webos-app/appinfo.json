@@ -1,0 +1,7 @@
+{
+  "id": "com.example.tvnanny",
+  "version": "1.0.0",
+  "title": "TV Nanny",
+  "type": "web",
+  "main": "index.html"
+}
