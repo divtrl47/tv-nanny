@@ -44,10 +44,21 @@ function loadSections() {
 function drawClock(sections) {
   const canvas = document.getElementById('clock');
   const ctx = canvas.getContext('2d');
-  const radius = canvas.width / 2 * 0.9;
-  const center = canvas.width / 2;
+
+  function resize() {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const arrowImg = new Image();
+  arrowImg.src = 'arrow.png';
+
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const radius = Math.min(canvas.width, canvas.height) / 2 * 0.9;
+    const center = Math.min(canvas.width, canvas.height) / 2;
     const now = new Date();
     const min = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
     const day = 24 * 60;
@@ -64,6 +75,7 @@ function drawClock(sections) {
       ctx.arc(center, center, r, startAngle, endAngle, false);
       ctx.closePath();
       ctx.fillStyle = s.color;
+      ctx.globalAlpha = isCurrent ? 1 : 0.5;
       ctx.fill();
       if (isCurrent) {
         ctx.lineWidth = 4;
@@ -72,18 +84,26 @@ function drawClock(sections) {
       }
     });
 
-    // draw hand
+    ctx.globalAlpha = 1;
     const angle = (min / day) * 2 * Math.PI - Math.PI / 2;
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 6;
-    ctx.beginPath();
-    ctx.moveTo(center, center);
-    ctx.lineTo(center + Math.cos(angle) * radius, center + Math.sin(angle) * radius);
-    ctx.stroke();
+    if (arrowImg.complete) {
+      ctx.save();
+      ctx.translate(center, center);
+      ctx.rotate(angle);
+      const scale = radius / arrowImg.height * 1.2;
+      const w = arrowImg.width * scale;
+      const h = arrowImg.height * scale;
+      ctx.drawImage(arrowImg, -w / 2, -h, w, h);
+      ctx.restore();
+    }
 
     requestAnimationFrame(draw);
   }
-  draw();
+  if (arrowImg.complete) {
+    draw();
+  } else {
+    arrowImg.onload = draw;
+  }
 }
 
 loadSections().then(sections => {

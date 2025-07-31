@@ -9,4 +9,8 @@ body {
 
 canvas {
   background: #111;
+  width: 90vmin;
+  height: 90vmin;
+  max-width: 100vw;
+  max-height: 100vh;
 }
