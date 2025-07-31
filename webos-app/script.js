@@ -52,7 +52,7 @@ function drawClock(sections) {
   resize();
   window.addEventListener('resize', resize);
 
-  function drawArrow(angle, radius) {
+  function drawArrow(angle, radius, center) {
     ctx.save();
     ctx.translate(center, center);
     ctx.rotate(angle);
@@ -62,12 +62,12 @@ function drawClock(sections) {
     ctx.strokeStyle = '#fff';
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.lineTo(0, -lineLen);
+    ctx.lineTo(lineLen, 0);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(0, -radius);
-    ctx.lineTo(-radius * 0.07, -lineLen);
-    ctx.lineTo(radius * 0.07, -lineLen);
+    ctx.moveTo(radius, 0);
+    ctx.lineTo(lineLen, -radius * 0.07);
+    ctx.lineTo(lineLen, radius * 0.07);
     ctx.closePath();
     ctx.fillStyle = '#fff';
     ctx.fill();
@@ -105,7 +105,7 @@ function drawClock(sections) {
 
     ctx.globalAlpha = 1;
     const angle = (min / day) * 2 * Math.PI - Math.PI / 2;
-    drawArrow(angle, radius);
+    drawArrow(angle, radius, center);
 
     requestAnimationFrame(draw);
   }
