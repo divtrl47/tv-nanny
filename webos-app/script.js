@@ -87,14 +87,16 @@ function drawClock(sections) {
     const radius = Math.min(canvas.width, canvas.height) / 2 * 0.9;
     const center = Math.min(canvas.width, canvas.height) / 2;
     const now = new Date();
-    const min = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+    const min24 = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
     const day = 24 * 60;
+    const min = (now.getHours() % 12) * 60 + now.getMinutes() + now.getSeconds() / 60;
+    const day12 = 12 * 60;
 
     let currentIndex = sections.length - 1;
     sections.forEach((s, i) => {
       const startAngle = (s.startMin / day) * 2 * Math.PI - Math.PI / 2;
       const endAngle = (s.endMin / day) * 2 * Math.PI - Math.PI / 2;
-      const isCurrent = min >= s.startMin && min < s.endMin;
+      const isCurrent = min24 >= s.startMin && min24 < s.endMin;
       if (isCurrent) currentIndex = i;
       ctx.beginPath();
       const r = isCurrent ? radius * 1.05 : radius;
@@ -112,7 +114,7 @@ function drawClock(sections) {
     });
 
     ctx.globalAlpha = 1;
-    const angle = (min / day) * 2 * Math.PI - Math.PI / 2;
+    const angle = (min / day12) * 2 * Math.PI - Math.PI / 2;
     drawArrow(angle, radius);
 
     requestAnimationFrame(draw);
