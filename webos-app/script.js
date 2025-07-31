@@ -56,21 +56,28 @@ function drawClock(sections) {
     ctx.save();
     ctx.translate(center, center);
     ctx.rotate(angle);
-    const lineLen = radius * 0.85;
-    ctx.lineWidth = radius * 0.05;
+
+    const shaft = radius * 0.8;
+    const head = radius * 0.15;
+    const width = radius * 0.05;
+
+    ctx.lineWidth = width;
     ctx.lineCap = 'round';
     ctx.strokeStyle = '#fff';
+
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.lineTo(lineLen, 0);
+    ctx.lineTo(shaft, 0);
     ctx.stroke();
+
     ctx.beginPath();
-    ctx.moveTo(radius, 0);
-    ctx.lineTo(lineLen, -radius * 0.07);
-    ctx.lineTo(lineLen, radius * 0.07);
+    ctx.moveTo(shaft, -head * 0.6);
+    ctx.lineTo(shaft + head, 0);
+    ctx.lineTo(shaft, head * 0.6);
     ctx.closePath();
     ctx.fillStyle = '#fff';
     ctx.fill();
+
     ctx.restore();
   }
 
