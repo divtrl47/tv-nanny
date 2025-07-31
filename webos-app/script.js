@@ -52,7 +52,8 @@ function drawClock(sections) {
   resize();
   window.addEventListener('resize', resize);
 
-  function drawArrow(angle, radius, center) {
+  function drawArrow(angle, radius) {
+    const center = Math.min(canvas.width, canvas.height) / 2;
     ctx.save();
     ctx.translate(center, center);
     ctx.rotate(angle);
@@ -112,7 +113,7 @@ function drawClock(sections) {
 
     ctx.globalAlpha = 1;
     const angle = (min / day) * 2 * Math.PI - Math.PI / 2;
-    drawArrow(angle, radius, center);
+    drawArrow(angle, radius);
 
     requestAnimationFrame(draw);
   }
