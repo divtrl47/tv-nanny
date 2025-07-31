@@ -112,7 +112,7 @@ function drawClock(sections) {
     });
 
     ctx.globalAlpha = 1;
-    const angle = (min / day) * 2 * Math.PI - Math.PI / 2;
+    const angle = (min / day) * 2 * Math.PI;
     drawArrow(angle, radius);
 
     requestAnimationFrame(draw);
