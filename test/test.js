@@ -12,24 +12,10 @@ global.window = {
 };
 global.requestAnimationFrame = () => {};
 
-// Fake Image constructor for script.js
-global.Image = class {
-  constructor() {
-    this.width = 10;
-    this.height = 10;
-    this.onload = () => {};
-    this.complete = false;
-  }
-  set src(_) {
-    this.complete = true;
-    setImmediate(() => this.onload());
-  }
-};
-
 const ctx = {
   save(){}, restore(){}, clearRect(){}, translate(){}, rotate(){},
   beginPath(){}, moveTo(){}, lineTo(){}, arc(){}, closePath(){},
-  drawImage(){}, fill(){}, stroke(){},
+  fill(){}, stroke(){},
   set lineWidth(v){}, set lineCap(v){}, set strokeStyle(v){},
   set fillStyle(v){}, set globalAlpha(v){},
 };

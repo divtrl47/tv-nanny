@@ -53,8 +53,7 @@ function drawClock(sections) {
   window.addEventListener('resize', resize);
 
   // draw uses a 24-hour cycle; the arrow points right so
-  // subtract π/2 so midnight appears at the top of the dial
-
+  // subtract \u03c0/2 so midnight appears at the top of the dial
   function drawArrow(length) {
     const head = length * 0.1;
     const w = length * 0.05;
