@@ -15,9 +15,10 @@ global.requestAnimationFrame = () => {};
 const ctx = {
   save(){}, restore(){}, clearRect(){}, translate(){}, rotate(){},
   beginPath(){}, moveTo(){}, lineTo(){}, arc(){}, closePath(){},
-  fill(){}, stroke(){},
+  fill(){}, stroke(){}, fillText(){},
   set lineWidth(v){}, set lineCap(v){}, set strokeStyle(v){},
-  set fillStyle(v){}, set globalAlpha(v){},
+  set fillStyle(v){}, set globalAlpha(v){}, set font(v){},
+  set textAlign(v){}, set textBaseline(v){},
 };
 
 global.document = {
