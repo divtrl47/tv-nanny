@@ -16,3 +16,5 @@ You can use the Makefile for common tasks:
 - `make serve` – start a local web server on port 8000.
 - `make package` – create `tv-nanny.zip` with the app content.
 - `make clean` – remove the generated archive.
+- `make test` – run a simple Node.js check to ensure the app loads without
+  ReferenceErrors.

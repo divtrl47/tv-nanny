@@ -52,8 +52,28 @@ function drawClock(sections) {
   resize();
   window.addEventListener('resize', resize);
 
-  const arrowImg = new Image();
-  arrowImg.src = 'arrow.png';
+  // draw uses a 24-hour cycle; the arrow points right so
+  // subtract π/2 so midnight appears at the top of the dial
+
+  function drawArrow(length) {
+    const head = length * 0.1;
+    const w = length * 0.05;
+    ctx.lineWidth = w;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#fff';
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(length - head, 0);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(length - head, -head * 0.8);
+    ctx.lineTo(length, 0);
+    ctx.lineTo(length - head, head * 0.8);
+    ctx.closePath();
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+  }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -63,12 +83,10 @@ function drawClock(sections) {
     const min = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
     const day = 24 * 60;
 
-    let currentIndex = sections.length - 1;
-    sections.forEach((s, i) => {
+    sections.forEach((s) => {
       const startAngle = (s.startMin / day) * 2 * Math.PI - Math.PI / 2;
       const endAngle = (s.endMin / day) * 2 * Math.PI - Math.PI / 2;
       const isCurrent = min >= s.startMin && min < s.endMin;
-      if (isCurrent) currentIndex = i;
       ctx.beginPath();
       const r = isCurrent ? radius * 1.05 : radius;
       ctx.moveTo(center, center);
@@ -86,24 +104,15 @@ function drawClock(sections) {
 
     ctx.globalAlpha = 1;
     const angle = (min / day) * 2 * Math.PI - Math.PI / 2;
-    if (arrowImg.complete) {
-      ctx.save();
-      ctx.translate(center, center);
-      ctx.rotate(angle);
-      const scale = radius / arrowImg.height * 1.2;
-      const w = arrowImg.width * scale;
-      const h = arrowImg.height * scale;
-      ctx.drawImage(arrowImg, -w / 2, -h, w, h);
-      ctx.restore();
-    }
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.rotate(angle);
+    drawArrow(radius);
+    ctx.restore();
 
     requestAnimationFrame(draw);
   }
-  if (arrowImg.complete) {
-    draw();
-  } else {
-    arrowImg.onload = draw;
-  }
+  draw();
 }
 
 loadSections().then(sections => {
