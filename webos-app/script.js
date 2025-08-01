@@ -58,13 +58,13 @@ function drawClock(sections) {
     ctx.translate(center, center);
     ctx.rotate(angle);
 
-    const shaft = radius * 0.8;
-    const head = radius * 0.15;
-    const width = radius * 0.05;
+    const shaft = radius * 0.6;
+    const head = radius * 0.25;
+    const width = radius * 0.1;
 
     ctx.lineWidth = width;
     ctx.lineCap = 'round';
-    ctx.strokeStyle = '#fff';
+    ctx.strokeStyle = '#000';
 
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -76,7 +76,7 @@ function drawClock(sections) {
     ctx.lineTo(shaft + head, 0);
     ctx.lineTo(shaft, head * 0.6);
     ctx.closePath();
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = '#000';
     ctx.fill();
 
     ctx.restore();
@@ -89,8 +89,8 @@ function drawClock(sections) {
     const now = new Date();
     const min24 = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
     const day = 24 * 60;
-    const min = (now.getHours() % 12) * 60 + now.getMinutes() + now.getSeconds() / 60;
-    const day12 = 12 * 60;
+    const min = (now.getHours() % 24) * 60 + now.getMinutes() + now.getSeconds() / 60;
+    const day24 = 24 * 60;
 
     let currentIndex = sections.length - 1;
     sections.forEach((s, i) => {
@@ -114,7 +114,7 @@ function drawClock(sections) {
     });
 
     ctx.globalAlpha = 1;
-    const angle = (min / day12) * 2 * Math.PI - Math.PI / 2;
+    const angle = (min / day24) * 2 * Math.PI - Math.PI / 2;
     drawArrow(angle, radius);
 
     requestAnimationFrame(draw);
