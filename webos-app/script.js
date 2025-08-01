@@ -111,6 +111,19 @@ function drawClock(sections) {
         ctx.strokeStyle = '#fff';
         ctx.stroke();
       }
+
+      // draw emoji label near the outer edge of the section
+      const mid = (startAngle + endAngle) / 2;
+      const emojiRadius = radius * 0.85;
+      const x = center + Math.cos(mid) * emojiRadius;
+      const y = center + Math.sin(mid) * emojiRadius;
+      ctx.save();
+      ctx.font = `${radius * 0.2}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#000';
+      ctx.fillText(s.name, x, y);
+      ctx.restore();
     });
 
     ctx.globalAlpha = 1;
