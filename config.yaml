@@ -19,13 +19,13 @@ schedule:
     start: "06:30"
   - code: eat
     start: "07:00"
-  - code: walk
+  - code: play
     start: "08:20"
   - code: sleep
     start: "11:30"
   - code: eat
     start: "12:30"
-  - code: walk
+  - code: play
     start: "13:00"
   - code: eat
     start: "17:00"
