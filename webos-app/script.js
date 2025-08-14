@@ -35,6 +35,12 @@ function computeAngles(sections) {
   });
 }
 
+function nowInUTC3() {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  return new Date(utc + 3 * 60 * 60000);
+}
+
 function loadSections() {
   return fetch('sections.yaml')
     .then(res => res.text())
@@ -86,7 +92,7 @@ function drawClock(sections) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const radius = Math.min(canvas.width, canvas.height) / 2 * 0.9;
     const center = Math.min(canvas.width, canvas.height) / 2;
-    const now = new Date();
+    const now = nowInUTC3();
     const min24 = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
     const day = 24 * 60;
     const min = (now.getHours() % 24) * 60 + now.getMinutes() + now.getSeconds() / 60;
@@ -118,7 +124,7 @@ function drawClock(sections) {
       const x = center + Math.cos(mid) * emojiRadius;
       const y = center + Math.sin(mid) * emojiRadius;
       ctx.save();
-      ctx.font = `${radius * 0.2}px sans-serif`;
+      ctx.font = `${radius * 0.1}px sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = '#000';
