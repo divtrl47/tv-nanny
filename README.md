@@ -18,3 +18,13 @@ You can use the Makefile for common tasks:
 - `make clean` – remove the generated archive.
 - `make test` – run a simple Node.js check to ensure the app loads without
   ReferenceErrors.
+
+## Docker deployment
+
+To host the HTML version with nginx on Ubuntu:
+
+- `make install` – install Docker and the Docker Compose plugin.
+- `make run` – start the nginx container serving `webos-app` on port 80.
+
+Point the `facelesscat.wtf` domain at the machine running the container to
+access the app in a browser.
