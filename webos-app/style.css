@@ -7,8 +7,7 @@ body {
   height: 100vh;
 }
 
-canvas {
-  background: #111;
+img {
   width: 90vmin;
   height: 90vmin;
   max-width: 100vw;

@@ -1,30 +1,34 @@
 # tv-nanny
 
-This repository contains a simple WebOS application that shows a pie clock. The circle is divided into sections defined in `sections.yaml`. A hand shows the current time and highlights the active section.
+A simple schedule clock.
 
-## Running
+The Go backend reads `config.yaml`, which defines reusable program entries
+(`sleep`, `play`, `eat`, `walk`, `shower`) and the day's schedule. It renders a
+high‑resolution PNG of the clock with 10‑minute color gradients between adjacent
+sections. The frontend is a small page that polls the `/image` endpoint every
+five seconds using [htmx](https://htmx.org).
 
-1. Copy the `webos-app` directory to your LG TV or run it in a browser that supports WebOS web apps.
-2. Open `index.html` to see the clock. The app reads `sections.yaml` at startup.
+## Running locally
 
-You can edit `sections.yaml` to configure names, colors and start times.
+```sh
+go run .
+```
 
-## Makefile
+Open `webos-app/index.html` in a browser; it requests the rendered image from
+the Go server running on port `8080`.
 
-You can use the Makefile for common tasks:
+## Docker
 
-- `make serve` – start a local web server on port 8000.
-- `make package` – create `tv-nanny.zip` with the app content.
-- `make clean` – remove the generated archive.
-- `make test` – run a simple Node.js check to ensure the app loads without
-  ReferenceErrors.
+Build and run both the Go backend and the nginx frontend:
 
-## Docker deployment
+```sh
+docker compose up --build
+```
 
-To host the HTML version with nginx on Ubuntu:
+Nginx serves the static `webos-app` on port `80` and proxies `/image` requests
+to the Go service.
 
-- `make install` – install Docker and the Docker Compose plugin.
-- `make run` – start the nginx container serving `webos-app` on port 80.
+## Configuration
 
-Point the `facelesscat.wtf` domain at the machine running the container to
-access the app in a browser.
+Edit `config.yaml` to adjust program colors, emoji, or the schedule. Changes are
+picked up on the next request.

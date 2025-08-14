@@ -1,20 +1,20 @@
 .PHONY: serve package clean test install run
 
 serve:
-	python3 -m http.server -d webos-app 8000
+        go run .
 
 package:
-	cd webos-app && zip -r ../tv-nanny.zip .
+        cd webos-app && zip -r ../tv-nanny.zip .
 
 clean:
-	rm -f tv-nanny.zip
-
-test:
-	node test/test.js
+        rm -f tv-nanny.zip
 
 install:
-	apt-get update
-	apt-get install -y docker.io docker-compose-plugin
+        apt-get update
+        apt-get install -y docker.io docker-compose-plugin
 
 run:
-	docker compose up
+        docker compose up --build
+
+test:
+        go test ./...
