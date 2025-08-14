@@ -1,4 +1,4 @@
-.PHONY: serve package clean test
+.PHONY: serve package clean test install run
 
 serve:
 	python3 -m http.server -d webos-app 8000
@@ -11,3 +11,10 @@ clean:
 
 test:
 	node test/test.js
+
+install:
+	apt-get update
+	apt-get install -y docker.io docker-compose-plugin
+
+run:
+	docker compose up
