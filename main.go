@@ -301,14 +301,46 @@ func generateImage(cfg *Config) ([]byte, error) {
 
 var cfg *Config
 
+type iconPos struct {
+	Emoji string
+	X     int
+	Y     int
+}
+
+func computeIconPositions(cfg *Config, size int) []iconPos {
+	center := float64(size) / 2
+	radius := center * 0.9 * 0.6
+	n := len(cfg.Schedule)
+	out := make([]iconPos, 0, n)
+	for i, s := range cfg.Schedule {
+		start := s.startMin
+		end := cfg.Schedule[(i+1)%n].startMin
+		if end <= start {
+			end += 1440
+		}
+		mid := (start + end) / 2
+		a := 2*math.Pi*float64(mid)/1440 - math.Pi/2
+		x := int(center + math.Cos(a)*radius)
+		y := int(center + math.Sin(a)*radius)
+		out = append(out, iconPos{s.Emoji, x, y})
+	}
+	return out
+}
+
 func imageHandler(w http.ResponseWriter, r *http.Request) {
+	const size = 1000
 	img, err := generateImage(cfg)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	encoded := base64.StdEncoding.EncodeToString(img)
-	html := fmt.Sprintf(`<img id="clock" hx-get="/image" hx-trigger="load, every 5s" hx-swap="outerHTML" src="data:image/png;base64,%s"/>`, encoded)
+	icons := computeIconPositions(cfg, size)
+	var sb strings.Builder
+	for _, ic := range icons {
+		fmt.Fprintf(&sb, `<span style="position:absolute;left:%dpx;top:%dpx;font-size:%dpx;transform:translate(-50%%,-50%%)">%s</span>`, ic.X, ic.Y, size/10, ic.Emoji)
+	}
+	html := fmt.Sprintf(`<div id="clock" hx-get="/image" hx-trigger="load, every 5s" hx-swap="outerHTML" style="position:relative;width:%dpx;height:%dpx"><img src="data:image/png;base64,%s" style="width:100%%;height:100%%"/>%s</div>`, size, size, encoded, sb.String())
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte(html))
 }

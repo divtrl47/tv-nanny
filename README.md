@@ -5,8 +5,9 @@ A simple schedule clock.
 The Go backend reads `config.yaml`, which defines reusable program entries
 (`sleep`, `play`, `eat`, `walk`, `shower`) and the day's schedule. It renders a
 high‑resolution PNG of the clock with 10‑minute color gradients between adjacent
-sections. The frontend is a small page that polls the `/image` endpoint every
-five seconds using [htmx](https://htmx.org).
+sections and computes positions for the emoji icons. The frontend is a small
+page that polls the `/image` endpoint every five seconds using
+[htmx](https://htmx.org) and overlays the emoji at those coordinates.
 
 ## Running locally
 
