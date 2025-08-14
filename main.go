@@ -341,7 +341,7 @@ func imageHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(&sb, `<span style="position:absolute;left:%dpx;top:%dpx;font-size:%dpx;transform:translate(-50%%,-50%%)">%s</span>`, ic.X, ic.Y, size/10, ic.Emoji)
 	}
 	html := fmt.Sprintf(`<div id="clock" hx-get="/image" hx-trigger="load, every 5s" hx-swap="outerHTML" style="position:relative;width:%dpx;height:%dpx"><img src="data:image/png;base64,%s" style="width:100%%;height:100%%"/>%s</div>`, size, size, encoded, sb.String())
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write([]byte(html))
 }
 
