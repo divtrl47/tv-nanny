@@ -314,7 +314,8 @@ type iconPos struct {
 
 func computeIconPositions(cfg *Config, size int) []iconPos {
 	center := float64(size) / 2
-	radius := center * 0.9 * 0.6
+	// place icons closer to the rim of the clock face
+	radius := center * 0.9 * 0.9
 	n := len(cfg.Schedule)
 	out := make([]iconPos, 0, n)
 	for i, s := range cfg.Schedule {
@@ -343,7 +344,7 @@ func imageHandler(w http.ResponseWriter, r *http.Request) {
 	icons := computeIconPositions(cfg, size)
 	var sb strings.Builder
 	for _, ic := range icons {
-		fmt.Fprintf(&sb, `<span style="position:absolute;left:%.2f%%;top:%.2f%%;font-size:5vmin;transform:translate(-50%%,-50%%)">%s</span>`, ic.X, ic.Y, ic.Emoji)
+		fmt.Fprintf(&sb, `<span style="position:absolute;left:%.2f%%;top:%.2f%%;font-size:2.5vmin;transform:translate(-50%%,-50%%)">%s</span>`, ic.X, ic.Y, ic.Emoji)
 	}
 	html := fmt.Sprintf(`<div id="clock" hx-get="/image" hx-trigger="load, every 5s" hx-swap="outerHTML" style="position:relative;width:90vmin;height:90vmin;overflow:visible"><img src="data:image/png;base64,%s" style="width:100%%;height:100%%;display:block"/>%s</div>`, encoded, sb.String())
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
