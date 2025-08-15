@@ -175,13 +175,18 @@ func computeColors(cfg *Config) [1440]color.RGBA {
 		curr := parseHexColor(s.Color)
 		next := parseHexColor(cfg.Schedule[(i+1)%n].Color)
 		boundary := cfg.Schedule[(i+1)%n].startMin
-		for offset := -5; offset < 5; offset++ {
+		for offset := -5; offset <= 5; offset++ {
 			m := boundary + offset
 			for m < 0 {
 				m += 1440
 			}
 			mm := m % 1440
 			t := float64(offset+5) / 10.0
+			if t < 0 {
+				t = 0
+			} else if t > 1 {
+				t = 1
+			}
 			colors[mm] = mix(curr, next, t)
 		}
 	}
