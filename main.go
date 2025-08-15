@@ -314,8 +314,8 @@ type iconPos struct {
 
 func computeIconPositions(cfg *Config, size int) []iconPos {
 	center := float64(size) / 2
-	// place icons closer to the rim of the clock face
-	radius := center * 0.9 * 0.9
+	// push icons near the outer rim of the clock face
+	radius := center * 0.9 * 0.98
 	n := len(cfg.Schedule)
 	out := make([]iconPos, 0, n)
 	for i, s := range cfg.Schedule {
