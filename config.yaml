@@ -1,0 +1,41 @@
+programs:
+  - code: sleep
+    emoji: "🛌"
+    color: "#a996ff"
+  - code: play
+    emoji: "🧸"
+    color: "#c2edc8"
+  - code: eat
+    emoji: "🍲"
+    color: "#fac8f8"
+  - code: walk
+    emoji: "🚶"
+    color: "#b3f1ff"
+  - code: shower
+    emoji: "🚿"
+    color: "#ffffff"
+schedule:
+  - code: play
+    start: "07:00"
+  - code: eat
+    start: "08:00"
+  - code: play
+    start: "08:30"
+  - code: sleep
+    start: "11:30"
+  - code: eat
+    start: "12:30"
+  - code: play
+    start: "13:00"
+  - code: eat
+    start: "15:30"
+  - code: play
+    start: "16:00"
+  - code: eat
+    start: "18:30"
+  - code: play
+    start: "19:00"
+  - code: shower
+    start: "19:30"
+  - code: sleep
+    start: "20:00"
