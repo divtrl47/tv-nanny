@@ -1,9 +1,9 @@
 programs:
   - code: sleep
-    emoji: "😴"
+    emoji: "🛌"
     color: "#a996ff"
   - code: play
-    emoji: "⚽️"
+    emoji: "🧸"
     color: "#c2edc8"
   - code: eat
     emoji: "🍲"
@@ -16,11 +16,11 @@ programs:
     color: "#ffffff"
 schedule:
   - code: play
-    start: "06:30"
-  - code: eat
     start: "07:00"
+  - code: eat
+    start: "08:00"
   - code: play
-    start: "08:20"
+    start: "08:30"
   - code: sleep
     start: "11:30"
   - code: eat
@@ -28,9 +28,13 @@ schedule:
   - code: play
     start: "13:00"
   - code: eat
-    start: "17:00"
+    start: "15:30"
   - code: play
-    start: "18:00"
+    start: "16:00"
+  - code: eat
+    start: "18:30"
+  - code: play
+    start: "19:00"
   - code: shower
     start: "19:30"
   - code: sleep
