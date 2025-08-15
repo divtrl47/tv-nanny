@@ -7,6 +7,13 @@
   <script src="https://unpkg.com/htmx.org@1.9.2"></script>
 </head>
 <body>
-  <div id="clock" hx-get="/image" hx-trigger="load, every 5s" hx-swap="outerHTML"></div>
+<div id="clock"></div>
+
+<div id="clock-poller"
+     hx-get="/image"
+     hx-trigger="load, every 5s"
+     hx-target="#clock"
+     hx-swap="innerHTML">
+</div>
 </body>
 </html>

@@ -22,11 +22,11 @@ schedule:
   - code: play
     start: "08:30"
   - code: sleep
-    start: "11:30"
+    start: "12:00"
   - code: eat
-    start: "12:30"
-  - code: play
     start: "13:00"
+  - code: play
+    start: "13:30"
   - code: eat
     start: "15:30"
   - code: play

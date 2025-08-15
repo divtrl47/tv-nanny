@@ -334,6 +334,7 @@ func computeIconPositions(cfg *Config, size int) []iconPos {
 }
 
 func imageHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method, r.RequestURI, time.Now().Format(time.DateTime))
 	const size = 1000
 	img, err := generateImage(cfg)
 	if err != nil {
@@ -346,7 +347,7 @@ func imageHandler(w http.ResponseWriter, r *http.Request) {
 	for _, ic := range icons {
 		fmt.Fprintf(&sb, `<span style="position:absolute;left:%.2f%%;top:%.2f%%;font-size:4.5vmin;transform:translate(-50%%,-50%%)">%s</span>`, ic.X, ic.Y, ic.Emoji)
 	}
-	html := fmt.Sprintf(`<div id="clock" hx-get="/image" hx-trigger="load, every 5s" hx-swap="outerHTML" style="position:relative;width:90vmin;height:90vmin;overflow:visible"><img src="data:image/png;base64,%s" style="width:100%%;height:100%%;display:block"/>%s</div>`, encoded, sb.String())
+	html := fmt.Sprintf(`<div id="clock" style="position:relative;width:90vmin;height:90vmin;overflow:visible"><img src="data:image/png;base64,%s" style="width:100%%;height:100%%;display:block"/>%s</div>`, encoded, sb.String())
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write([]byte(html))
 }
