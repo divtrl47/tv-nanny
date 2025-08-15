@@ -308,8 +308,8 @@ var cfg *Config
 
 type iconPos struct {
 	Emoji string
-	X     int
-	Y     int
+	X     float64
+	Y     float64
 }
 
 func computeIconPositions(cfg *Config, size int) []iconPos {
@@ -325,9 +325,9 @@ func computeIconPositions(cfg *Config, size int) []iconPos {
 		}
 		mid := (start + end) / 2
 		a := 2*math.Pi*float64(mid)/1440 - math.Pi/2
-		x := int(center + math.Cos(a)*radius)
-		y := int(center + math.Sin(a)*radius)
-		out = append(out, iconPos{s.Emoji, x, y})
+		x := center + math.Cos(a)*radius
+		y := center + math.Sin(a)*radius
+		out = append(out, iconPos{s.Emoji, x / float64(size) * 100, y / float64(size) * 100})
 	}
 	return out
 }
@@ -343,9 +343,9 @@ func imageHandler(w http.ResponseWriter, r *http.Request) {
 	icons := computeIconPositions(cfg, size)
 	var sb strings.Builder
 	for _, ic := range icons {
-		fmt.Fprintf(&sb, `<span style="position:absolute;left:%dpx;top:%dpx;font-size:%dpx;transform:translate(-50%%,-50%%)">%s</span>`, ic.X, ic.Y, size/10, ic.Emoji)
+		fmt.Fprintf(&sb, `<span style="position:absolute;left:%.2f%%;top:%.2f%%;font-size:5vmin;transform:translate(-50%%,-50%%)">%s</span>`, ic.X, ic.Y, ic.Emoji)
 	}
-	html := fmt.Sprintf(`<div id="clock" hx-get="/image" hx-trigger="load, every 5s" hx-swap="outerHTML" style="position:relative;width:%dpx;height:%dpx"><img src="data:image/png;base64,%s" style="width:100%%;height:100%%"/>%s</div>`, size, size, encoded, sb.String())
+	html := fmt.Sprintf(`<div id="clock" hx-get="/image" hx-trigger="load, every 5s" hx-swap="outerHTML" style="position:relative;width:90vmin;height:90vmin"><img src="data:image/png;base64,%s" style="width:100%%;height:100%%"/>%s</div>`, encoded, sb.String())
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write([]byte(html))
 }
